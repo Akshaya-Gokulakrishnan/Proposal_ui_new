@@ -216,52 +216,55 @@ const IngestForm: React.FC<IngestFormProps> = ({
       (uploadType === 'url' && webLinks.trim().length > 0 && !errors.url));
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
+    <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-black mb-3">Content Ingestion</h2>
-        <p className="text-neutral-600">Upload new documents or web content</p>
+        <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <FiUpload className="w-8 h-8 text-primary" />
+        </div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-3">Content Hub</h2>
+        <p className="text-gray-600 text-lg">Upload documents, web content, or select from existing sources</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div
-          className={`p-6 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-lg ${
+          className={`p-8 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-xl ${
             uploadType === 'file'
-              ? 'border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-md'
-              : 'border-gray-200 hover:border-gray-300'
+              ? 'border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-lg scale-105'
+              : 'border-gray-200 hover:border-primary/30 hover:bg-primary/5'
           }`}
           onClick={() => !isProcessing && setUploadType('file')}
         >
           <div className="flex items-center mb-4">
-            <div className="p-2 bg-primary/10 rounded-lg mr-3">
-              <FiFile className="w-6 h-6 text-primary" />
+            <div className={`p-3 rounded-xl mr-4 ${uploadType === 'file' ? 'bg-primary/20' : 'bg-primary/10'}`}>
+              <FiFile className="w-7 h-7 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold text-black">File Upload</h3>
+            <h3 className="text-xl font-bold text-gray-900">File Upload</h3>
           </div>
-          <p className="text-neutral-600 text-sm">Upload PDF or DOCX documents for extraction</p>
+          <p className="text-gray-600">Upload PDF or DOCX documents for intelligent content extraction</p>
         </div>
 
         <div
-          className={`p-6 border-2 rounded-2xl cursor-pointer transition-all duration-200 hover:shadow-lg ${
+          className={`p-8 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-xl ${
             uploadType === 'url'
-              ? 'border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-md'
-              : 'border-gray-200 hover:border-gray-300'
+              ? 'border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-lg scale-105'
+              : 'border-gray-200 hover:border-primary/30 hover:bg-primary/5'
           }`}
           onClick={() => !isProcessing && setUploadType('url')}
         >
           <div className="flex items-center mb-4">
-            <div className="p-2 bg-primary/10 rounded-lg mr-3">
-              <FiGlobe className="w-6 h-6 text-primary" />
+            <div className={`p-3 rounded-xl mr-4 ${uploadType === 'url' ? 'bg-primary/20' : 'bg-primary/10'}`}>
+              <FiGlobe className="w-7 h-7 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold text-black">Web Link</h3>
+            <h3 className="text-xl font-bold text-gray-900">Web Content</h3>
           </div>
-          <p className="text-neutral-600 text-sm">Extract content from web pages and articles</p>
+          <p className="text-gray-600">Extract content from web pages, articles, and online resources</p>
         </div>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-10">
         {uploadType === 'file' && (
           <div className="space-y-4">
-            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary transition-colors">
+            <div className="border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center hover:border-primary hover:bg-primary/5 transition-all duration-200">
               <input
                 type="file"
                 accept=".pdf,.doc,.docx"
@@ -275,34 +278,36 @@ const IngestForm: React.FC<IngestFormProps> = ({
                 htmlFor="file-upload"
                 className={`cursor-pointer ${isProcessing ? 'cursor-not-allowed opacity-50' : ''}`}
               >
-                <FiUpload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-neutral-600">Click to upload or drag and drop</p>
-                <p className="text-sm text-neutral-500 mt-1">PDF, DOC, DOCX up to 10MB</p>
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <FiUpload className="w-8 h-8 text-gray-400" />
+                </div>
+                <p className="text-gray-700 font-medium mb-2">Click to upload or drag and drop</p>
+                <p className="text-sm text-gray-500">PDF, DOC, DOCX up to 10MB</p>
               </label>
             </div>
 
             {errors.file && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
                 <p className="text-red-600 text-sm">{errors.file}</p>
               </div>
             )}
 
             {selectedFiles.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-neutral-700">
+                <p className="text-sm font-semibold text-gray-700">
                   Selected Files ({selectedFiles.length}):
                 </p>
                 <div className="space-y-1">
                   {selectedFiles.map((file, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-2 bg-green-50 border border-green-200 rounded-lg"
+                      className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-xl"
                     >
-                      <span className="text-green-700 text-sm">{file.name}</span>
+                      <span className="text-green-700 text-sm font-medium">{file.name}</span>
                       <button
                         onClick={() => removeFile(index)}
                         disabled={isProcessing}
-                        className="text-red-500 hover:text-red-700 text-sm"
+                        className="p-1 text-red-500 hover:text-red-700 hover:bg-red-100 rounded transition-colors"
                       >
                         <BiTrash className="w-4 h-4" />
                       </button>
@@ -320,12 +325,12 @@ const IngestForm: React.FC<IngestFormProps> = ({
               placeholder="https://example.com/article (one per line or comma separated)"
               value={webLinks}
               onChange={handleUrlChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+              className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-white shadow-sm"
               rows={4}
               disabled={isProcessing}
             />
             {errors.url && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
                 <p className="text-red-600 text-sm">{errors.url}</p>
               </div>
             )}
@@ -406,20 +411,20 @@ const IngestForm: React.FC<IngestFormProps> = ({
         <button
           type="submit"
           disabled={!canSubmit}
-          className={`w-full py-4 px-8 rounded-xl font-semibold transition-all duration-200 ${
+          className={`w-full py-4 px-8 rounded-2xl font-bold text-lg transition-all duration-300 ${
             canSubmit
-              ? 'bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl'
+              ? 'bg-gradient-to-r from-primary to-primary/90 text-white hover:from-primary/90 hover:to-primary/80 shadow-xl hover:shadow-2xl transform hover:scale-105'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
           }`}
         >
           {isProcessing ? (
             <>
-              <FiLoader className="w-5 h-5 inline mr-3 animate-spin" />
+              <FiLoader className="w-6 h-6 inline mr-3 animate-spin" />
               Processing Content...
             </>
           ) : (
             <>
-              <FiUpload className="w-5 h-5 inline mr-3" />
+              <FiUpload className="w-6 h-6 inline mr-3" />
               Process Content
             </>
           )}

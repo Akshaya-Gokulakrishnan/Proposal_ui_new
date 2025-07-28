@@ -590,9 +590,9 @@ const ProposalAuthoring: React.FC = () => {
 
   // Replace the main return JSX with a ChatGPT-like layout
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100/50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       {/* Header with back arrow */}
-      <div className="w-full px-8 pt-8 pb-6 flex items-center justify-between">
+      <div className="w-full px-8 pt-6 pb-4 bg-white border-b border-gray-200 shadow-sm">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/dashboard/workspaces')}
@@ -602,36 +602,36 @@ const ProposalAuthoring: React.FC = () => {
             <FiArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-black mb-2">
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">
               {selectedWorkspaceObj.name || 'Proposal Authoring'}
             </h1>
-            <p className="text-neutral-600 text-lg">
-              Create, refine, and generate proposals using your workspace content.
+            <p className="text-gray-600">
+              AI-powered proposal generation using your workspace content
             </p>
           </div>
         </div>
       </div>
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-80 bg-white border-r border-gray-200 flex flex-col p-4 space-y-4 min-h-screen">
+        <aside className="w-80 bg-white border-r border-gray-200 flex flex-col p-6 space-y-6 min-h-screen">
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Workspace</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-3">Workspace</h3>
             <div className="relative mb-4">
-              <div className="bg-gray-50 border border-gray-200 rounded-md px-4 py-2 text-gray-900 text-base font-medium">
+              <div className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-xl px-4 py-3 text-gray-900 font-semibold">
                 {workspaceNameFromState || selectedWorkspaceObj.name || 'Workspace'}
               </div>
             </div>
             {/* Section selector */}
             {selectedWorkspace && (
               <div className="mb-4">
-                <h3 className="text-base font-semibold text-gray-900 mb-2">Section</h3>
+                <h3 className="text-base font-bold text-gray-900 mb-3">Section Template</h3>
                 <select
                   value={selectedSectionId}
                   onChange={(e) => setSelectedSectionId(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white shadow-sm"
                   disabled={sectionTemplatesLoading || !sectionTemplates.length}
                 >
-                  <option value="">{sectionTemplatesLoading ? 'Loading...' : 'Section...'}</option>
+                  <option value="">{sectionTemplatesLoading ? 'Loading...' : 'Choose a section...'}</option>
                   {sectionTemplates.map((section) => (
                     <option key={section.id} value={section.id}>
                       {section.name}
@@ -678,8 +678,8 @@ const ProposalAuthoring: React.FC = () => {
             {/* Context/sections */}
             {workspaceContent && (
               <div className="mb-4">
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                  <h3 className="text-base font-semibold text-gray-900 mb-2">Context</h3>
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <h3 className="text-base font-bold text-gray-900 mb-3">Content Context</h3>
                   <div className="flex items-center mb-2">
                     <input
                       type="checkbox"
@@ -696,12 +696,12 @@ const ProposalAuthoring: React.FC = () => {
                     />
                     <label
                       htmlFor="select-all-context-sections"
-                      className="text-sm font-medium text-gray-700 cursor-pointer"
+                      className="text-sm font-semibold text-gray-700 cursor-pointer"
                     >
                       Select All
                     </label>
                   </div>
-                  <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
+                  <div className="space-y-1 max-h-48 overflow-y-auto pr-2">
                     {workspaceContent.sections.map((section: Section, idx: number) => {
                       let heading = section.name;
                       if (!heading) {
@@ -727,17 +727,17 @@ const ProposalAuthoring: React.FC = () => {
                       return (
                         <div
                           key={section.id}
-                          className="flex items-center gap-2 p-2 rounded hover:bg-gray-100 border-b border-gray-100"
+                          className="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors"
                         >
                           <input
                             type="checkbox"
                             checked={selectedSections.includes(section.id)}
                             onChange={() => handleSectionToggle(section.id)}
-                            className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                            className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary flex-shrink-0"
                           />
-                          <span className="font-medium text-gray-900 truncate">{heading}</span>
+                          <span className="font-medium text-gray-900 text-sm truncate flex-1">{heading}</span>
                           <button
-                            className="ml-auto text-xs text-blue-600 hover:underline"
+                            className="text-xs text-primary hover:text-primary/80 font-medium flex-shrink-0"
                             onClick={() => handleViewSection(section)}
                           >
                             View
@@ -751,19 +751,19 @@ const ProposalAuthoring: React.FC = () => {
             )}
             {/* Tags */}
             <div className="mb-4">
-              <h3 className="text-base font-semibold text-gray-900 mb-2">Tags</h3>
+              <h3 className="text-base font-bold text-gray-900 mb-3">Tags</h3>
               <div className="flex gap-2 mb-2">
                 <input
                   type="text"
                   value={newTag}
                   onChange={(e) => setNewTag(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                  className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
+                  className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-white"
                   placeholder="Add a tag..."
                 />
                 <button
                   onClick={handleAddTag}
-                  className="px-3 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center text-sm"
+                  className="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center text-sm"
                   disabled={!newTag.trim()}
                 >
                   <FiPlus className="w-4 h-4" />
@@ -774,7 +774,7 @@ const ProposalAuthoring: React.FC = () => {
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"
+                      className="inline-flex items-center px-3 py-1 bg-primary/10 text-primary text-xs rounded-lg font-medium"
                     >
                       {tag}
                       <button
@@ -791,24 +791,31 @@ const ProposalAuthoring: React.FC = () => {
             </div>
             {/* Generated Content (History) */}
             <div className="mb-4">
-              <h3 className="text-base font-semibold text-gray-900 mb-2">
-                Generated Content (History)
+              <h3 className="text-base font-bold text-gray-900 mb-3">
+                Content History
               </h3>
-              <div className="max-h-48 overflow-y-auto space-y-2 pr-2">
+              <div className="max-h-48 overflow-y-auto space-y-1 pr-2">
                 {generatedPrompts && generatedPrompts.length > 0 ? (
                   generatedPrompts.map((item, idx) => (
                     <button
                       key={item.id || idx}
-                      className="w-full text-left px-3 py-2 rounded bg-gray-50 hover:bg-primary/10 border border-gray-100 text-xs text-gray-700 truncate"
+                      className="w-full text-left px-3 py-2 rounded-lg bg-gray-50 hover:bg-primary/10 hover:border-primary/20 border border-gray-200 text-xs text-gray-700 transition-all duration-200"
                       title={item.content}
                       onClick={() => setGeneratedContent(item.content)}
                     >
-                      {item.content.slice(0, 60)}
-                      {item.content.length > 60 ? '...' : ''}
+                      <div className="truncate font-medium">
+                        {item.content.slice(0, 60)}
+                        {item.content.length > 60 ? '...' : ''}
+                      </div>
                     </button>
                   ))
                 ) : (
-                  <div className="text-xs text-gray-400">No generated content yet.</div>
+                  <div className="text-center py-4">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <FiFileText className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <p className="text-xs text-gray-500">No content generated yet</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -816,79 +823,100 @@ const ProposalAuthoring: React.FC = () => {
         </aside>
 
         {/* Main chat area */}
-        <main className="flex-1 flex flex-col bg-gray-50 min-h-screen relative">
+        <main className="flex-1 flex flex-col bg-gradient-to-br from-gray-50 to-white min-h-screen relative">
           {/* Section heading */}
-          <div className="px-8 pt-8 pb-2">
-            <h2 className="text-xl font-bold text-gray-900">{selectedSectionName || 'Section'}</h2>
+          <div className="px-8 pt-6 pb-4 bg-white border-b border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedSectionName || 'AI Content Generation'}</h2>
             {selectedSectionName && prompt && (
-              <div className="bg-gray-50 rounded-md p-3 text-gray-800 whitespace-pre-line select-none border border-gray-200 text-sm mt-2">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 text-gray-800 whitespace-pre-line select-none border border-blue-200 text-sm">
                 {prompt}
               </div>
             )}
             {/* User prompt input moved here */}
-            <div className="mt-4">
+            <div className="mt-6">
               <textarea
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.target.value)}
                 placeholder="Type your prompt or instructions..."
-                className="w-full min-h-[40px] max-h-32 border border-gray-300 rounded-lg px-3 py-2 text-sm resize-none"
+                className="w-full min-h-[60px] max-h-32 border border-gray-300 rounded-xl px-4 py-3 text-sm resize-none bg-white shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                 readOnly={false}
                 disabled={false}
               />
               <button
                 onClick={handleGenerate}
                 disabled={!prompt.trim() || !selectedWorkspace || isGenerating}
-                className="mt-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-all duration-200 shadow-lg shadow-blue-600/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="mt-4 px-8 py-3 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-primary/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {isGenerating ? (
                   <FiLoader className="w-5 h-5 animate-spin" />
                 ) : (
                   <FiZap className="w-5 h-5" />
                 )}
-                Generate
+                {isGenerating ? 'Generating...' : 'Generate Content'}
               </button>
             </div>
           </div>
           {/* Chat history */}
-          <div className="flex-1 overflow-y-auto px-8 py-8 flex flex-col gap-6">
+          <div className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-6">
             {/* Show prompt and generated content as chat bubbles */}
             {generatedContent && (
               <div className="flex gap-3 items-start flex-row-reverse">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                  <FiFileText className="w-5 h-5 text-green-600" />
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center">
+                  <FiZap className="w-5 h-5 text-primary" />
                 </div>
-                <div className="bg-white rounded-xl p-4 shadow border border-gray-100 max-w-2xl">
-                  <div className="text-gray-900 font-medium mb-1">AI Response</div>
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200 max-w-3xl">
+                  <div className="text-gray-900 font-bold mb-3 flex items-center">
+                    <FiZap className="w-4 h-4 mr-2 text-primary" />
+                    AI Generated Content
+                  </div>
                   <div className="prose prose-gray max-w-none">
                     <ReactMarkdown>{generatedContent}</ReactMarkdown>
                   </div>
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-3 mt-4 pt-4 border-t border-gray-100">
                     <button
                       onClick={() => copyToClipboard(generatedContent)}
-                      className="flex items-center gap-2 px-3 py-1 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-lg transition-colors text-xs"
+                      className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors text-sm font-medium"
                     >
-                      <FiCopy className="w-3 h-3" /> Copy
+                      <FiCopy className="w-4 h-4" /> Copy
                     </button>
                     <button
                       onClick={handleRetry}
                       disabled={isGenerating}
-                      className="flex items-center gap-2 px-3 py-1 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors text-xs disabled:opacity-50"
+                      className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
                     >
-                      <FiRefreshCw className={`w-3 h-3 ${isGenerating ? 'animate-spin' : ''}`} />{' '}
+                      <FiRefreshCw className={`w-4 h-4 ${isGenerating ? 'animate-spin' : ''}`} />
                       Retry
                     </button>
                     <button
                       onClick={handleSave}
                       disabled={isSaving}
-                      className="flex items-center gap-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition-all duration-200 text-xs disabled:opacity-50"
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg font-semibold transition-all duration-200 text-sm disabled:opacity-50 shadow-md"
                     >
                       {isSaving ? (
-                        <FiLoader className="w-3 h-3 animate-spin" />
+                        <FiLoader className="w-4 h-4 animate-spin" />
                       ) : (
-                        <FiSave className="w-3 h-3" />
-                      )}{' '}
+                        <FiSave className="w-4 h-4" />
+                      )}
                       Save
                     </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Empty state */}
+            {!generatedContent && !isGenerating && (
+              <div className="flex-1 flex items-center justify-center">
+                <div className="text-center max-w-md">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <FiZap className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Ready to Generate</h3>
+                  <p className="text-gray-600 mb-6">
+                    Select a section template, add your prompt, and choose relevant content to generate professional proposal content.
+                  </p>
+                  <div className="text-sm text-gray-500">
+                    <p>💡 <strong>Tip:</strong> Select content from your workspace to provide context for better AI generation</p>
                   </div>
                 </div>
               </div>

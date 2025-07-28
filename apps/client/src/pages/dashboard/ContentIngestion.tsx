@@ -54,7 +54,7 @@ const ContentIngestion: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-white relative">
+    <div className="h-full bg-gradient-to-br from-gray-50 to-white relative">
       <Toaster
         position="top-right"
         toastOptions={{
@@ -67,7 +67,7 @@ const ContentIngestion: React.FC = () => {
       />
       {/* Right side panel for Content Sources */}
       <div
-        className={`fixed top-0 right-0 h-full z-40 transition-transform duration-300 ${showSourcesPanel ? 'translate-x-0' : 'translate-x-full'} w-full max-w-md bg-white border-l border-gray-200 shadow-lg`}
+        className={`fixed top-0 right-0 h-full z-40 transition-transform duration-300 ${showSourcesPanel ? 'translate-x-0' : 'translate-x-full'} w-full max-w-md bg-white border-l border-gray-200 shadow-2xl`}
       >
         <div className="overflow-y-auto h-[calc(100%-56px)] px-4 sm:px-6">
           <ContentSources />
@@ -76,14 +76,14 @@ const ContentIngestion: React.FC = () => {
       {/* Menu button to open/close panel */}
       <button
         onClick={() => setShowSourcesPanel((prev) => !prev)}
-        className="absolute top-4 right-4 z-50 p-2 rounded-lg bg-white border border-gray-200 shadow hover:bg-primary/10"
+        className="absolute top-4 right-4 z-50 p-3 rounded-xl bg-white border border-gray-200 shadow-lg hover:bg-primary/10 hover:border-primary/30 transition-all duration-200"
         title="Toggle Content Sources"
       >
-        <FiMenu className="w-6 h-6 text-gray-700" />
+        <FiMenu className="w-5 h-5 text-gray-700" />
       </button>
       <div className={`transition-all duration-300 ${showSourcesPanel ? 'lg:mr-[28rem]' : ''}`}>
         {extractedResults.length === 0 ? (
-          <div className="h-full flex items-center justify-center">
+          <div className="h-full flex items-center justify-center p-8">
             <IngestForm
               onContentUploaded={handleContentUploaded}
               onProcessingStart={handleProcessingStart}
